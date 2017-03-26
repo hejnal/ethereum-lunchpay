@@ -1,50 +1,54 @@
 pragma solidity ^0.4.9;
 
 import "Group.sol";
+import "Project.sol";
 
-contract NameReg {
-    function register(bytes32 name);
-    function unregister();
- }
+contract LunchPay is Group {
 
- contract LunchPay is Group {
+    event NextPayer(string _nextPayer);
+    event PaymentDone(string _payaer);
 
-     event NextPayer(string _nextPayer);
-     event Consulted(address to, bool success);
+    event Consulted(address to, bool success);
 
-     string public name;
-     address projectContract;
+    string public name;
+    address projectContract;
 
-     address constant NAME_REG_ADDRESS = 0x0dcd2f752394c41875e259e00bb44fd505297caf;
+    address constant NAME_REG_ADDRESS = 0x92C292cB254393F4dA22D92CA42B27375f3ebc7A;
 
-     function LunchPay(string _name, address _projectContract) {
-         name = _name;
-         projectContract = _projectContract;
+    function LunchPay(string _name, address _projectContract) {
+        name = _name;
+        projectContract = _projectContract;
 
-         bytes32 converted;
+        bytes32 converted;
 
-         assembly {
-             converted := mload(add(_name, 32))
-         }
+        assembly {
+            converted := mload(add(_name, 32))
+        }
 
-         NameReg(NAME_REG_ADDRESS).register(converted);
-     }
+        NameReg(NAME_REG_ADDRESS).register(converted);
+    }
 
-     function broadCastNextPayer(string _nextPayer) public returns(bool) {
-         NextPayer(_nextPayer);
-     }
+    function broadcastNextPayer(string _nextPayer) public returns(bool) {
+        NextPayer(_nextPayer);
+    }
 
-     function consultNextPayer() public {
-         members.push(0);
+    function broadcastPayment(string _payer) public returns(bool) {
+        PaymentDone(_payer);
+    }
 
-         bool s = Project(projectContract).broadcastNextPayer(address(this), members);
+    function consultNextPayer() public {
+        members.push(0);
 
-         Consulted(projectContract, s);
+        bool s = Project(projectContract).broadcastNextPayer(address(this), members);
 
-     }
+        Consulted(projectContract, s);
 
-     function pay(uint[] diners) public {
+    }
 
-     }
+    function pay(uint[] diners) public {
+        bool s = Project(projectContract).registerPayment(address(this), msg.sender, diners);
 
- }
+        Consulted(projectContract, s);
+    }
+
+}

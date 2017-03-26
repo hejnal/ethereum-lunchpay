@@ -63,11 +63,34 @@ contract NameReg is Mortal {
     Unregister(msg.sender, name);
   }
 
-  function addressOf(bytes32 name) constant returns (address addr) {
-    return toAddress[name];
+  function addressOf(string name) constant returns (address addr) {
+    return toAddress[stringToBytes32(name)];
   }
 
-  function nameOf(address addr) constant returns (bytes32 name) {
-    return toName[addr];
+  function nameOf(address addr) constant returns (string name) {
+    return bytes32ToString(toName[addr]);
   }
+
+  function bytes32ToString(bytes32 x) internal constant returns (string) {
+    bytes memory bytesString = new bytes(32);
+    uint charCount = 0;
+    for (uint j = 0; j < 32; j++) {
+        byte char = byte(bytes32(uint(x) * 2 ** (8 * j)));
+        if (char != 0) {
+            bytesString[charCount] = char;
+            charCount++;
+        }
+    }
+    bytes memory bytesStringTrimmed = new bytes(charCount);
+    for (j = 0; j < charCount; j++) {
+        bytesStringTrimmed[j] = bytesString[j];
+    }
+    return string(bytesStringTrimmed);
+    }
+
+    function stringToBytes32(string memory source) internal returns (bytes32 result) {
+    assembly {
+        result := mload(add(source, 32))
+    }
+    }
 }
