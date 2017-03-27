@@ -82,6 +82,16 @@ MyContracts.prototype.assignMembersToLunchPays = function() {
       });
 }
 
+MyContracts.prototype.printAllProjectMembersBalances = function() {
+		var count = JSON.parse(this.projectContract.membersCount())
+		for (var i=0; i<count; i++) {
+			var name = this.projectContract.members(i)[1];
+			var balance = JSON.parse(this.projectContract.members(i)[2]);
+			console.log(name + "\t:\t" + balance);
+		}
+
+      }
+
 
 
 var myContracts = new MyContracts();
@@ -110,7 +120,21 @@ menu.addDelimiter('-', 80, 'Contract Deploy')
                   });
             }
         })
+	.addItem(
+        "Watch Name Registry Contract at specific address (add as an argument after the option number and space) [NameReg]\n" +
+		"   Example: 4 '0x5cc61874e24a3905a187605e7be83e063bf54ee8'",
+        function(addr) {
+			   var addrParsed = addr.replace(/\'/g,'');
+               myContracts.nameRegContract = web3.eth.contract(deploy.getNameRegABI()).at(addrParsed);
+        }, null, [{'name':'addr', 'type':'string'}])
     .addItem(
+        "Watch Project Contract at specific address (add as an argument after the option number and space) [Project]\n" +
+		"   Example: 5 '0x83977cc99305a48c2fc5efb29980923e45322a8b'",
+        function(addr) {
+			   var addrParsed = addr.replace(/\'/g,'');
+               myContracts.projectContract = web3.eth.contract(deploy.getProjectABI()).at(addrParsed);
+        }, null, [{'name':'addr', 'type':'string'}])
+	.addItem(
         'Print details of NameReg contract',
         myContracts.printRegContract,
         myContracts)
@@ -133,9 +157,14 @@ menu.addDelimiter('-', 80, 'Contract Deploy')
         myContracts)
     .addDelimiter('-', 80, 'LunchPay Interactions')
     .addItem(
-        'Print the current balances for Goodfellas]',
+        'Print the current balances for all members of the Project',
+		myContracts.printAllProjectMembersBalances, myContracts)
+	.addItem(
+        'Print the current balances for Goodfellas',
         function() {
-            var goodFellas = web3.eth.contract(deploy.getLunchPayABI()).at(myContracts.nameRegContract.addressOf(myContracts.projectContract.lunchPayContracts(0)));
+			var payLunchName = myContracts.projectContract.lunchPayContracts(0);
+			var payLunchAddress = myContracts.nameRegContract.addressOf(payLunchName);
+            var goodFellas = web3.eth.contract(deploy.getLunchPayABI()).at(payLunchAddress);
             console.log(goodFellas);
         })
     .addDelimiter('*', 80)
