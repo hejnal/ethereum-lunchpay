@@ -114,7 +114,7 @@ sh/start-private-chain.sh
 
 Check the chain status:
 ```
-check_the_status.sh
+sh/check_the_status.sh
 ```
 
 Testing
@@ -123,7 +123,7 @@ A very simple javascript menu console has been implemented to play around with t
 
 To run the console, simply run:
 ```
-sh\start-contract-admin-menu.sh
+sh/start-contract-admin-menu.sh
 ```
 > **Note:** Currently there is no full support for the Event filtering and subscription, use the wallet software to view more data in the event log.
 
