@@ -1,28 +1,28 @@
 pragma solidity ^0.4.9;
+import "Mortal.sol";
 
-contract Group {
+contract Group is Mortal {
 
-    address public owner;
     uint[] public members;
+    uint public membersCount;
 
-    modifier ownerOnly {
-        if (msg.sender != owner) {
-            throw;
-        } else {
-            _;
-        }
-    }
+    event MemberAdded(uint index);
+    event MemberRemoved(uint index);
 
     function Group() {
         owner = msg.sender;
     }
 
-    function addMember(uint index) public ownerOnly {
-        members.push(index);
+    function addMember(uint _index) public ownerOnly {
+        members.push(_index);
+        membersCount = membersCount + 1;
+        MemberAdded(_index);
     }
 
-    function removeMember(uint index) public ownerOnly {
-        delete members[index];
+    function removeMember(uint _index) public ownerOnly {
+        delete members[_index];
+        membersCount = membersCount - 1;
+        MemberRemoved(_index);
     }
 
 }

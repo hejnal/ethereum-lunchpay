@@ -1,31 +1,31 @@
 pragma solidity ^0.4.9;
-
 import "Group.sol";
 import "Project.sol";
 
 contract LunchPay is Group {
 
     event NextPayer(string _nextPayer);
-    event PaymentDone(string _payaer);
+    event PaymentDone(string _payer);
 
     event Consulted(address to, bool success);
 
     string public name;
     address projectContract;
 
-    address constant NAME_REG_ADDRESS = 0x92C292cB254393F4dA22D92CA42B27375f3ebc7A;
+    address public nameRegAddress;
 
-    function LunchPay(string _name, address _projectContract) {
+    function LunchPay(string _name, address _nameRegAddress, address _projectContract) {
         name = _name;
         projectContract = _projectContract;
+        nameRegAddress = _nameRegAddress;
 
         bytes32 converted;
 
         assembly {
-            converted := mload(add(_name, 32))
+            converted: = mload(add(_name, 32))
         }
 
-        NameReg(NAME_REG_ADDRESS).register(converted);
+        NameReg(nameRegAddress).register(converted);
     }
 
     function broadcastNextPayer(string _nextPayer) public returns(bool) {
@@ -37,8 +37,6 @@ contract LunchPay is Group {
     }
 
     function consultNextPayer() public {
-        members.push(0);
-
         bool s = Project(projectContract).broadcastNextPayer(address(this), members);
 
         Consulted(projectContract, s);
@@ -50,5 +48,4 @@ contract LunchPay is Group {
 
         Consulted(projectContract, s);
     }
-
 }
