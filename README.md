@@ -130,6 +130,7 @@ sh\start-contract-admin-menu.sh
 The console shows the following options:
 
 --------------------------------Contract Deploy--------------------------------
+
 1. Unlock all accounts
 2. Deploy Name Registry Contract
 3. Deploy Project Contract
@@ -139,16 +140,19 @@ The console shows the following options:
 7. Print details of Project contract
 
 ---------------------------------Initial Setup---------------------------------
+
 8. Add 4 members to the Project [Alice, Bob, Mike, Suzan]
 9. Add 2 new PayLunch Contracts [GoodFellas, BlueOcean]
 10. Assign persons to new PayLunch contracts    [(Alice, Bob, Mike) -> GoodFellas, (Mike,Suzan) -> BlueOcean]
 
 -----------------------------LunchPay Interactions-----------------------------
+
 11. Share 1 ether with the rest of accounts from the Ether Base account (to be able to do transactions)
 12. Pay for Lunch in the GoodFellas LunchPay Group [GoodFellas]
 13. Pay for Lunch in the BlueOcean LunchPay Group [BlueOcean]
 
 -------------------------------LunchPay Queries--------------------------------
+
 14. Print the current balances for all members of the Project
 15. Print the current balances for GoodFellas
 16. Print the current balances for BlueOcean
