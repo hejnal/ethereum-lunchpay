@@ -1,5 +1,27 @@
 pragma solidity ^0.4.9;
-import "Mortal.sol";
+
+contract Owned {
+    address owner;
+
+    function owned() {
+        owner = msg.sender;
+    }
+
+    modifier ownerOnly {
+        if (msg.sender != owner) {
+            throw;
+        } else {
+            _;
+        }
+    }
+}
+
+contract Mortal is Owned {
+    function kill() ownerOnly {
+        suicide(owner);
+    }
+}
+
 
 contract Group is Mortal {
 

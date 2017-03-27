@@ -1,6 +1,7 @@
 pragma solidity ^0.4.9;
 import "Mortal.sol";
 import "LunchPay.sol";
+import "NameReg.sol";
 
 contract Project is Mortal {
     address public manager;
