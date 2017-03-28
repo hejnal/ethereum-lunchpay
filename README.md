@@ -157,7 +157,11 @@ The console shows the following options:
 15. Print the current balances for GoodFellas
 16. Print the current balances for BlueOcean
 
-All items showned in bold should be executed in order to see a basic execution.
+A standard execution path would be:
+
+1 -> 2 (wait) -> 3 (wait) ->  8 -> 9 -> 10 (wait) -> 11 -> 12 (wait) -> 13 (wait)
+
+After the contract have been deployed (or watched) the queries options are available (they are local, no transactions are sent).
 
 > **Note:** If you have stored the address of the previously created contracts, you can easily watch them, by only providing its address.
 
