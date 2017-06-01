@@ -1,6 +1,9 @@
 #!/bin/bash
 
-CHAIN_DIR=./lunch-chain
+CHAIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CHAIN_DIR="$(dirname $CHAIN_DIR)"/lunch-chain
+
+echo $CHAIN_DIR
 
 err_report() {
     echo "Error on line $1"
@@ -15,5 +18,7 @@ if [ ! -d "$CHAIN_DIR" ]; then
   exit 0
 fi
 
+
+
 echo "$(date) - Attaching console to running chain..."
-geth  --datadir $CHAIN_DIR attach
+geth  --datadir $CHAIN_DIR attach ipc:/$CHAIN_DIR/geth.ipc

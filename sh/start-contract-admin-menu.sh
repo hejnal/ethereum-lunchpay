@@ -1,6 +1,7 @@
 #!/bin/bash
 
-CHAIN_DIR=./lunch-chain
+CHAIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CHAIN_DIR="$(dirname $CHAIN_DIR)"/lunch-chain
 
 err_report() {
     echo "Error on line $1"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-CHAIN_DIR=./lunch-chain
+CHAIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CHAIN_DIR="$(dirname $CHAIN_DIR)"/lunch-chain
 
 err_report() {
     echo "Error on line $1"
@@ -21,7 +22,8 @@ cd $CHAIN_DIR
 
 echo "$(date) - Performing a setup of the chain Genesis block..."
 
-echo '{"nonce":"0x0000000000000042","timestamp":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000","extraData":"0x0","gasLimit":"0x8000000","difficulty":"0x400","mixhash":"0x0000000000000000000000000000000000000000000000000000000000000000","coinbase":"0x3333333333333333333333333333333333333333","alloc":{}}' > CustomGenesis.json
+
+echo '{"nonce": "0x0000000000000042","timestamp": "0x00","parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000","extraData": "0x00","gasLimit": "0x8000000","difficulty": "0x0400","mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000","coinbase": "0x3333333333333333333333333333333333333333","alloc":{},"config":{"chainId":3141,"homesteadBlock":0,"eip155Block": 0,"eip158Block":0}}' > CustomGenesis.json
 geth --datadir . init CustomGenesis.json
 rm CustomGenesis.json
 
